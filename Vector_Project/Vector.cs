@@ -5,7 +5,7 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Collection Vector based in List
+    /// Collection MathVector based in List
     /// </summary>
     /// <typeparam name="T">Any type</typeparam>
     internal class Vector<T> : IEnumerable<T>
@@ -108,7 +108,7 @@
 
             if (this.myList != null && this.myList.Count > 0)
             {
-                result += string.Format(" [Vector collection type: {0}] ", this.myList[0].GetType());
+                result += string.Format(" [MathVector collection type: {0}] ", this.myList[0].GetType());
 
                 for (int i = 0; i < this.myList.Count; i++)
                 {
