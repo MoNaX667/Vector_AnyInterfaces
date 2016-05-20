@@ -25,12 +25,14 @@
         /// </summary>
         public int Lenght
         {
-            get { return this.myList.Count; }
-
+            get
+            {
+                return this.myList.Count;
+            }
         }
 
         /// <summary>
-        /// Realizate foreach contruction
+        /// Do foreach work
         /// </summary>
         /// <returns></returns>
         public IEnumerator<T> GetEnumerator()
@@ -39,7 +41,6 @@
             {
                 yield return this.myList[i];
             }
-            
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -76,7 +77,7 @@
         /// <summary>
         /// Add some element
         /// </summary>
-        /// <param name="newElement"></param>
+        /// <param name="newElement">New element for adding</param>
         public void Add(T newElement)
         {
             this.myList.Add(newElement);
@@ -97,15 +98,81 @@
             return false;
         }
 
+        /// <summary>
+        /// Output some info about this instance
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            var format = 
-                string.Format("My vector Type: {0} ; Contains: {1} element\n"+
-                "Collection was created by V.B.",
-                this.myList.GetType().GetElementType(),
-                this.myList.Count);
+            string result = "";
 
-            return format;
+            if (this.myList != null && this.myList.Count > 0)
+            {
+                result += string.Format(" [Vector collection type: {0}] ", this.myList[0].GetType());
+
+                for (int i = 0; i < this.myList.Count; i++)
+                {
+                    result += string.Format(" [{0}: {1}] ", i, this.myList[i]);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Do base operation vector collection
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(Object obj)
+        {
+            if (obj is Vector<T> && obj != null)
+            {
+                Vector<T> temp = (Vector<T>)obj;
+
+                if (temp == this)
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
+        /// <summary>
+        /// Get hash code by ToString HashCode
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
+
+        /// <summary>
+        /// If type of vector data realizated IComparable interface than 
+        /// method can use sort function for all element
+        /// </summary>
+        /// <returns>return true if operatin was done</returns>
+        public bool TrySort()
+        {
+            try
+            {
+                this.myList.Sort();
+                return true;
+            }
+            catch (InvalidOperationException excep)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Sort data with using some comparer instance
+        /// </summary>
+        /// <param name="someComparer"></param>
+        public void SortByComperer(IComparer<T> someComparer)
+        {
+            this.myList.Sort(someComparer);
         }
     }
 }
