@@ -1,178 +1,189 @@
 ﻿namespace Vector_Project
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
 
-    /// <summary>
-    /// Collection MathVector based in List
-    /// </summary>
-    /// <typeparam name="T">Any type</typeparam>
-    internal class Vector<T> : IEnumerable<T>
+    internal sealed class Vector<T> where T : struct , IComparable
     {
-        private readonly List<T> myList;
-        
+        // Ctor
         /// <summary>
-        /// Create vector by new object
+        /// Create vector obj by Start and End points coordinates
         /// </summary>
-        public Vector()
+        /// <param name="startPointName">Start point name</param>
+        /// <param name="endPointName">End point name</param>
+        /// <param name="startPointX">start point x coordinate</param>
+        /// <param name="startPointY">start point y coordinate</param>
+        /// <param name="endPointX">end point x coordinate</param>
+        /// <param name="endPointY">end point y coordinate</param>
+        public Vector(char startPointName, char endPointName, T startPointX, 
+            T startPointY, T endPointX, T endPointY)
         {
-            this.myList = new List<T>();
+            this.StartPosX = startPointX;
+            this.StartPosY = startPointY;
+            this.EndPosX = endPointX;
+            this.EndPosY = endPointY;
+            this.VectorX = (((dynamic)(this.EndPosX.ToString())) - 
+                (dynamic)(this.StartPosX.ToString()));
+            this.VectorY = (dynamic)this.EndPosY - (dynamic)this.StartPosY;
+            this.Name = startPointName.ToString() + endPointName.ToString();
+            this.Lenght = Math.Sqrt(Math.Pow((dynamic)this.VectorX, 2) +
+                Math.Pow((dynamic)this.VectorY, 2));
         }
 
+        public Vector(string name,T xVector,T yVector)
+        {
+            this.Name = name;
+            this.VectorX = xVector;
+            this.VectorY = yVector;
+            this.Lenght = Math.Sqrt(Math.Pow((dynamic)this.VectorX, 2) +
+                Math.Pow((dynamic)this.VectorY, 2));
+        }
+
+        // Members
+        public T StartPosX { get; private set; }
+
+        public T StartPosY { get; private set; }
+
+        public T EndPosX { get; private set; }
+
+        public T EndPosY { get; private set; }
+
+        public T VectorX { get; private set; }
+
+        public T VectorY { get; private set; }
+
+        public string Name { get; private set; }
+
+        public double Lenght { get; private set; }
+
         /// <summary>
-        /// Return count of collection
+        /// Sum vectors
         /// </summary>
-        public int Lenght
+        /// <param name="firstVector">first vector</param>
+        /// <param name="secondVector">second vector</param>
+        /// <returns>New vector</returns>
+        public static Vector<T> operator +(Vector<T> firstVector, Vector<T> secondVector)
         {
-            get
-            {
-                return this.myList.Count;
-            }
+            return new Vector<T>(
+                string.Format("{0}{1}", firstVector.Name[0], secondVector.Name[1]),
+                (dynamic)firstVector.VectorX + (dynamic)secondVector.StartPosX,
+                (dynamic)firstVector.VectorY + (dynamic)secondVector.VectorY);
         }
 
         /// <summary>
-        /// Do foreach work
+        /// Substract vectors
         /// </summary>
-        /// <returns></returns>
-        public IEnumerator<T> GetEnumerator()
+        /// <param name="firstVector">first vector</param>
+        /// <param name="secondVector">second vector</param>
+        /// <returns>New vector</returns>
+        public static Vector<T> operator -(Vector<T> firstVector, Vector<T> secondVector)
         {
-            for (int i = 0; i < this.myList.Count; i++)
-            {
-                yield return this.myList[i];
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
+            return new Vector<T>(
+                string.Format("{0}{1}", firstVector.Name[0], secondVector.Name[1]),
+                (dynamic)firstVector.VectorX - (dynamic)secondVector.StartPosX,
+                (dynamic)firstVector.VectorY - (dynamic)secondVector.VectorY);
         }
 
         /// <summary>
-        /// Remove some element by index if collection contains this index
+        /// More operator
         /// </summary>
-        /// <param name="index">Index of target element</param>
-        /// <returns>Return true if removing was ok</returns>
-        public bool RemoveAt(int index)
+        /// <param name="firstVector">first vector</param>
+        /// <param name="secondVector">second vector</param>
+        /// <returns>True if first more than second</returns>
+        public static bool operator >(Vector<T> firstVector, Vector<T> secondVector)
         {
-            if (this.myList.Count > index)
-            {
-                this.myList.RemoveAt(index);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return ((dynamic)firstVector.CompareTo(secondVector) > 0);
         }
 
         /// <summary>
-        /// Clear collection
+        /// Less operator
         /// </summary>
-        public void Clear()
+        /// <param name="firstVector">first vector</param>
+        /// <param name="secondVector">second vector</param>
+        /// <returns>True if first less than second</returns>
+        public static bool operator <(Vector<T> firstVector, Vector<T> secondVector)
         {
-            this.myList.Clear();
+            return ((dynamic)firstVector.CompareTo(secondVector) < 0);
         }
 
         /// <summary>
-        /// Add some element
+        /// Equally operator
         /// </summary>
-        /// <param name="newElement">New element for adding</param>
-        public void Add(T newElement)
+        /// <param name="firstVector">first vector</param>
+        /// <param name="secondVector">second vector</param>
+        /// <returns>True if first less than second</returns>
+        public static bool operator ==(Vector<T> firstVector, Vector<T> secondVector)
         {
-            this.myList.Add(newElement);
+            return ((dynamic)firstVector.CompareTo(secondVector) == 0);
         }
 
         /// <summary>
-        /// Check current collection to contain target element
+        /// Unequally operator
         /// </summary>
-        /// <param name="targetElement">Target element</param>
-        /// <returns>Return true if collection contains target element</returns>
-        public bool Contains(T targetElement)
+        /// <param name="firstVector">first vector</param>
+        /// <param name="secondVector">second vector</param>
+        /// <returns>True if first less than second</returns>
+        public static bool operator !=(Vector<T> firstVector, Vector<T> secondVector)
         {
-            if (this.myList.Contains(targetElement))
-            {
-                return true;
-            }
-
-            return false;
+            return ((dynamic)firstVector.CompareTo(secondVector) != 0);
         }
 
+        // Public methods
+
         /// <summary>
-        /// Output some info about this instance
+        /// To string
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            string result = "";
+            string result = string.Empty;
 
-            if (this.myList != null && this.myList.Count > 0)
-            {
-                result += string.Format(" [MathVector collection type: {0}] ", this.myList[0].GetType());
-
-                for (int i = 0; i < this.myList.Count; i++)
-                {
-                    result += string.Format(" [{0}: {1}] ", i, this.myList[i]);
-                }
-            }
+            result = string.Format(
+                "[VectorName: {2}; Lenght: {3:000.00} ; VectorCoordinate: {0}:{1} ;]",
+                this.VectorX,
+                this.VectorY,
+                this.Name,
+                this.Lenght);
 
             return result;
         }
 
         /// <summary>
-        /// Do base operation vector collection
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(Object obj)
-        {
-            if (obj is Vector<T> && obj != null)
-            {
-                Vector<T> temp = (Vector<T>)obj;
-
-                if (temp == this)
-                {
-                    return true;
-                }
-            }
-            
-            return false;
-        }
-
-        /// <summary>
-        /// Get hash code by ToString HashCode
+        /// Get hash code
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return this.ToString().GetHashCode();
+            return this.Lenght.GetHashCode() + this.ToString().GetHashCode();
         }
 
         /// <summary>
-        /// If type of vector data realizated IComparable interface than 
-        /// method can use sort function for all element
+        /// Compare some other Vector
         /// </summary>
-        /// <returns>return true if operatin was done</returns>
-        public bool TrySort()
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(Vector<T> other)
         {
-            try
+            if (this.Lenght > other.Lenght)
             {
-                this.myList.Sort();
-                return true;
+                return 1;
             }
-            catch (InvalidOperationException excep)
+
+            if (this.Lenght < other.Lenght)
             {
-                return false;
+                return -1;
             }
+
+            return 0;
         }
 
         /// <summary>
-        /// Sort data with using some comparer instance
+        /// Do compare operation
         /// </summary>
-        /// <param name="someComparer"></param>
-        public void SortByComperer(IComparer<T> someComparer)
+        /// <param name="obj">Some vector</param>
+        /// <returns>true if  == </returns>
+        public override bool Equals(object obj)
         {
-            this.myList.Sort(someComparer);
+            return obj.ToString() == this.ToString();
         }
     }
 }
