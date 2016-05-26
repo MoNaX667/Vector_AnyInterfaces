@@ -44,11 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Vector.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VectorList.cs" />
+    <Compile Include="TVectorGenerator.cs" />
+    <Compile Include="VectorCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

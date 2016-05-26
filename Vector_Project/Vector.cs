@@ -2,11 +2,12 @@
 {
     using System;
 
-    internal sealed class Vector<T> where T : struct , IComparable
+    internal sealed class Vector<T>: IComparable<Vector<T>> where T: struct
     {
         // Ctor
+
         /// <summary>
-        /// Create vector obj by Start and End points coordinates
+        /// Create some vector by Start and End points coordinates
         /// </summary>
         /// <param name="startPointName">Start point name</param>
         /// <param name="endPointName">End point name</param>
@@ -29,6 +30,12 @@
                 Math.Pow((dynamic)this.VectorY, 2));
         }
 
+        /// <summary>
+        /// Create new vector with use x and y coordinate of vector
+        /// </summary>
+        /// <param name="name">name of vector</param>
+        /// <param name="xVector">x vector coordinate</param>
+        /// <param name="yVector">y vector coordinate</param>
         public Vector(string name,T xVector,T yVector)
         {
             this.Name = name;
@@ -46,7 +53,7 @@
         public T EndPosX { get; private set; }
 
         public T EndPosY { get; private set; }
-
+        
         public T VectorX { get; private set; }
 
         public T VectorY { get; private set; }
@@ -70,7 +77,7 @@
         }
 
         /// <summary>
-        /// Substract vectors
+        /// - operator of vectors
         /// </summary>
         /// <param name="firstVector">first vector</param>
         /// <param name="secondVector">second vector</param>
@@ -91,7 +98,7 @@
         /// <returns>True if first more than second</returns>
         public static bool operator >(Vector<T> firstVector, Vector<T> secondVector)
         {
-            return ((dynamic)firstVector.CompareTo(secondVector) > 0);
+            return ((dynamic)firstVector.CompareTo(secondVector) < 0);
         }
 
         /// <summary>
@@ -102,7 +109,7 @@
         /// <returns>True if first less than second</returns>
         public static bool operator <(Vector<T> firstVector, Vector<T> secondVector)
         {
-            return ((dynamic)firstVector.CompareTo(secondVector) < 0);
+            return ((dynamic)firstVector.CompareTo(secondVector) > 0);
         }
 
         /// <summary>
@@ -132,13 +139,13 @@
         /// <summary>
         /// To string
         /// </summary>
-        /// <returns></returns>
+        /// <returns>text representation of vector</returns>
         public override string ToString()
         {
             string result = string.Empty;
 
             result = string.Format(
-                "[VectorName: {2}; Lenght: {3:000.00} ; VectorCoordinate: {0}:{1} ;]",
+                "[VectorName: {2}; Lenght: {3:000.00} ; VectorCoordinate: {0:00}:{1:00} ;]",
                 this.VectorX,
                 this.VectorY,
                 this.Name,
@@ -150,7 +157,7 @@
         /// <summary>
         /// Get hash code
         /// </summary>
-        /// <returns></returns>
+        /// <returns>return number</returns>
         public override int GetHashCode()
         {
             return this.Lenght.GetHashCode() + this.ToString().GetHashCode();
@@ -159,18 +166,18 @@
         /// <summary>
         /// Compare some other Vector
         /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
+        /// <param name="other">Some other vector</param>
+        /// <returns>return number to compare</returns>
         public int CompareTo(Vector<T> other)
         {
             if (this.Lenght > other.Lenght)
             {
-                return 1;
+                return -1;
             }
 
             if (this.Lenght < other.Lenght)
             {
-                return -1;
+                return 1;
             }
 
             return 0;

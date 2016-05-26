@@ -1,10 +1,12 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Vector_Project
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
+    using System.Linq;
+    using System.Text;
 
     class Program
     {
@@ -14,59 +16,69 @@ namespace Vector_Project
             // Console Cutomizate
             Console.Title = "MathVector by Vitaliy Belyakov";
 
-           
-        }
+            // Create generator and vector list with generated new vectors
+            var myVectorGenerator = new TVectorGenerator<int>(100);
+            VectorCollection<int> myVectorCollection=new VectorCollection<int>(myVectorGenerator.Take(6).ToArray());
+          
+            // Output start vectors of vector <T> collection
+            Console.WriteLine(new string('-',60));
+            Console.WriteLine("Base generated vector<T> collection: ");
+            Console.WriteLine();
 
-        /// <summary>
-        /// Do true while loop for check user input coordinate
-        /// </summary>
-        /// <param name="coordinate"></param>
-        private static void InputCoordinate(out int coordinate)
-        {
-            string tempString;
-
-            // Input startX
-            while (true)
+            foreach (var vector in myVectorCollection)
             {
-                tempString = Console.ReadLine();
-
-                if (int.TryParse(tempString, out coordinate))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Bad input ... try again");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Input vector name
-        /// </summary>
-        private static string InputName()
-        {
-            char tempChar;
-            string name = " ";
-
-
-            // Input startX
-            while (true)
-            {
-                tempChar = Console.ReadKey().KeyChar;
-
-                if (name.Length < 2 && char.IsLetter(tempChar))
-                {
-                    name += tempChar;
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Bad input ... try again");
-                }
+                Console.WriteLine(vector.ToString());
             }
 
-            return name;
+            // Sorted vectors of vector <T> collection
+            Console.WriteLine(new string('-', 60));
+            Console.WriteLine("Sorted generated vector<T> collection: ");
+            Console.WriteLine();
+            myVectorCollection.Sort();
+
+            foreach (var vector in myVectorCollection)
+            {
+                Console.WriteLine(vector.ToString());
+            }
+
+            // Operation tests
+            Console.WriteLine(new string('-', 60));
+            Console.WriteLine("Operation tests: ");
+
+            // Addition
+            Console.WriteLine();
+            Console.WriteLine("Addition");
+            Console.WriteLine(
+                "{0} + {1} = {2}", myVectorCollection[0].Name,
+                myVectorCollection[1].Name,
+                myVectorCollection[0] + myVectorCollection[1]);
+
+            // Substraction
+            Console.WriteLine();
+            Console.WriteLine("Substraction");
+            Console.WriteLine(
+                "{0} - {1} = {2}",myVectorCollection[2].Name,
+                myVectorCollection[3].Name,
+                myVectorCollection[2] - myVectorCollection[3]);
+
+            // More operation
+            Console.WriteLine();
+            Console.WriteLine("More operator");
+            Console.WriteLine(
+                "{0} > {1} = {2}", myVectorCollection[0].Name,
+                myVectorCollection[1].Name,
+                myVectorCollection[0] > myVectorCollection[1]);
+
+            // Less operation
+            Console.WriteLine();
+            Console.WriteLine("Less operator");
+            Console.WriteLine(
+                "{0} < {1} = {2}", myVectorCollection[2].Name,
+                myVectorCollection[3].Name,
+                myVectorCollection[2] < myVectorCollection[3]);
+
+            Console.ReadKey();
         }
+
     }
 }
