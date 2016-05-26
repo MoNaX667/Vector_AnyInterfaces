@@ -1,10 +1,12 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Vector_Project
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
+    using System.Linq;
+    using System.Text;
 
     class Program
     {
@@ -14,127 +16,69 @@ namespace Vector_Project
             // Console Cutomizate
             Console.Title = "MathVector by Vitaliy Belyakov";
 
-            Vector<MathVector> myVector=new Vector<MathVector>();
+            // Create generator and vector list with generated new vectors
+            var myVectorGenerator = new TVectorGenerator<int>(100);
+            VectorCollection<int> myVectorCollection=new VectorCollection<int>(myVectorGenerator.Take(6).ToArray());
+          
+            // Output start vectors of vector <T> collection
+            Console.WriteLine(new string('-',60));
+            Console.WriteLine("Base generated vector<T> collection: ");
+            Console.WriteLine();
 
-            // Add some eleent in random list
-            for (int i = 0; i < 10; i++)
+            foreach (var vector in myVectorCollection)
             {
-                myVector.Add(CreateRandomVector());
-                Thread.Sleep(20);
+                Console.WriteLine(vector.ToString());
             }
 
-            // Output random list
-            Console.WriteLine("Random list");
+            // Sorted vectors of vector <T> collection
+            Console.WriteLine(new string('-', 60));
+            Console.WriteLine("Sorted generated vector<T> collection: ");
+            Console.WriteLine();
+            myVectorCollection.Sort();
 
-            foreach (var value in myVector)
+            foreach (var vector in myVectorCollection)
             {
-                Console.WriteLine(value.ToString());
+                Console.WriteLine(vector.ToString());
             }
 
-            Console.WriteLine(new string('-',30));
+            // Operation tests
+            Console.WriteLine(new string('-', 60));
+            Console.WriteLine("Operation tests: ");
 
-            // Sort and output random list
-            myVector.TrySort();
+            // Addition
+            Console.WriteLine();
+            Console.WriteLine("Addition");
+            Console.WriteLine(
+                "{0} + {1} = {2}", myVectorCollection[0].Name,
+                myVectorCollection[1].Name,
+                myVectorCollection[0] + myVectorCollection[1]);
 
-            Console.WriteLine("Sorted Random List");
+            // Substraction
+            Console.WriteLine();
+            Console.WriteLine("Substraction");
+            Console.WriteLine(
+                "{0} - {1} = {2}",myVectorCollection[2].Name,
+                myVectorCollection[3].Name,
+                myVectorCollection[2] - myVectorCollection[3]);
 
-            foreach (var value in myVector)
-            {
-                Console.WriteLine(value.ToString());
-            }
+            // More operation
+            Console.WriteLine();
+            Console.WriteLine("More operator");
+            Console.WriteLine(
+                "{0} > {1} = {2}", myVectorCollection[0].Name,
+                myVectorCollection[1].Name,
+                myVectorCollection[0] > myVectorCollection[1]);
+
+            // Less operation
+            Console.WriteLine();
+            Console.WriteLine("Less operator");
+            Console.WriteLine(
+                "{0} < {1} = {2}", myVectorCollection[2].Name,
+                myVectorCollection[3].Name,
+                myVectorCollection[2] < myVectorCollection[3]);
 
             Console.ReadKey();
         }
 
-        /// <summary>
-        /// Create some vector
-        /// </summary>
-        /// <returns></returns>
-        private static MathVector CreateVector()
-        {
-            // Members
-            MathVector vectorA;
-            int startX = 0, startY = 0, endX = 0, endY = 0;
-            string name;
-
-            InputCoordinate(out startX);
-            InputCoordinate(out startY);
-            InputCoordinate(out endX);
-            InputCoordinate(out endY);
-            name = InputName();
-
-            vectorA=new MathVector(name[0], name[1], startX, startY, endX, endY);
-            return vectorA;
-        }
-
-        /// <summary>
-        /// Do true while loop for check user input coordinate
-        /// </summary>
-        /// <param name="coordinate"></param>
-        private static void InputCoordinate(out int coordinate)
-        {
-            string tempString;
-
-            // Input startX
-            while (true)
-            {
-                tempString = Console.ReadLine();
-
-                if (int.TryParse(tempString, out coordinate))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Bad input ... try again");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Input vector name
-        /// </summary>
-        private static string InputName()
-        {
-            char tempChar;
-            string name = " ";
-
-
-            // Input startX
-            while (true)
-            {
-                tempChar = Console.ReadKey().KeyChar;
-
-                if (name.Length < 2 && char.IsLetter(tempChar))
-                {
-                    name += tempChar;
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Bad input ... try again");
-                }
-            }
-
-            return name;
-        }
-
-        /// <summary>
-        /// Create random vector
-        /// </summary>
-        /// <returns>Return new vector</returns>
-        private static MathVector CreateRandomVector()
-        {
-            Random ran =new Random();
-            int startEnglishUpLetter = 65;
-            int endEnglishUpLetter = 90;
-
-            return new MathVector
-                (ran.Next(10,100),
-                ran.Next(10,100),
-                string.Format("{0}{1}",(char)ran.Next(startEnglishUpLetter, endEnglishUpLetter),
-                (char)ran.Next(startEnglishUpLetter, endEnglishUpLetter))
-                );
-        }
     }
 }
