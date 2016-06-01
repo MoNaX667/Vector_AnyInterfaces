@@ -48,7 +48,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TVectorGenerator.cs" />
+    <Compile Include="TVectorGenerator.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="VectorCollection.cs" />
   </ItemGroup>
   <ItemGroup>
