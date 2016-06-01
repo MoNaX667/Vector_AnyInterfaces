@@ -1,27 +1,33 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading;
+﻿// <copyright file="Program.cs" company="Some Company">
+// Copyright (c) Sprocket Enterprises. All rights reserved.
+// </copyright>
+// <author>Vitalit Belyakov</author>
 
 namespace Vector_Project
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
-    class Program
+    /// <summary>
+    /// Program class
+    /// </summary>
+    internal class Program
     {
-        static void Main()
+        /// <summary>
+        /// The main method
+        /// </summary>
+        private static void Main()
         {
-            
             // Console Cutomizate
             Console.Title = "MathVector by Vitaliy Belyakov";
 
             // Create generator and vector list with generated new vectors
             var myVectorGenerator = new TVectorGenerator<int>(100);
-            VectorCollection<int> myVectorCollection=new VectorCollection<int>(myVectorGenerator.Take(6).ToArray());
+            VectorCollection<int> myVectorCollection =
+                new VectorCollection<int>(myVectorGenerator.Take(6).ToArray());
           
             // Output start vectors of vector <T> collection
-            Console.WriteLine(new string('-',60));
+            Console.WriteLine(new string('-', 60));
             Console.WriteLine("Base generated vector<T> collection: ");
             Console.WriteLine();
 
@@ -49,7 +55,8 @@ namespace Vector_Project
             Console.WriteLine();
             Console.WriteLine("Addition");
             Console.WriteLine(
-                "{0} + {1} = {2}", myVectorCollection[0].Name,
+                "{0} + {1} = {2}", 
+                myVectorCollection[0].Name,
                 myVectorCollection[1].Name,
                 myVectorCollection[0] + myVectorCollection[1]);
 
@@ -57,7 +64,8 @@ namespace Vector_Project
             Console.WriteLine();
             Console.WriteLine("Substraction");
             Console.WriteLine(
-                "{0} - {1} = {2}",myVectorCollection[2].Name,
+                "{0} - {1} = {2}", 
+                myVectorCollection[2].Name,
                 myVectorCollection[3].Name,
                 myVectorCollection[2] - myVectorCollection[3]);
 
@@ -65,7 +73,8 @@ namespace Vector_Project
             Console.WriteLine();
             Console.WriteLine("More operator");
             Console.WriteLine(
-                "{0} > {1} = {2}", myVectorCollection[0].Name,
+                "{0} > {1} = {2}",
+                myVectorCollection[0].Name,
                 myVectorCollection[1].Name,
                 myVectorCollection[0] > myVectorCollection[1]);
 
@@ -73,12 +82,12 @@ namespace Vector_Project
             Console.WriteLine();
             Console.WriteLine("Less operator");
             Console.WriteLine(
-                "{0} < {1} = {2}", myVectorCollection[2].Name,
+                "{0} < {1} = {2}",
+                myVectorCollection[2].Name,
                 myVectorCollection[3].Name,
                 myVectorCollection[2] < myVectorCollection[3]);
 
             Console.ReadKey();
         }
-
     }
 }

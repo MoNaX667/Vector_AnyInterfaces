@@ -1,13 +1,23 @@
-﻿namespace Vector_Project
+﻿// <copyright file="Vector.cs" company="Some Company">
+// Copyright (c) Sprocket Enterprises. All rights reserved.
+// </copyright>
+// <author>Vitalit Belyakov</author>
+
+namespace Vector_Project
 {
     using System;
 
-    internal sealed class Vector<T>: IComparable<Vector<T>> where T: struct
+    /// <summary>
+    /// Some vector
+    /// </summary>
+    /// <typeparam name="T">Some type of vector</typeparam>
+    internal sealed class Vector<T> : IComparable<Vector<T>> where T : struct
     {
         // Ctor
 
         /// <summary>
-        /// Create some vector by Start and End points coordinates
+        /// Initializes a new instance of the <see cref="Vector {T}" /> class
+        /// base on start and end points coordinate
         /// </summary>
         /// <param name="startPointName">Start point name</param>
         /// <param name="endPointName">End point name</param>
@@ -15,15 +25,20 @@
         /// <param name="startPointY">start point y coordinate</param>
         /// <param name="endPointX">end point x coordinate</param>
         /// <param name="endPointY">end point y coordinate</param>
-        public Vector(char startPointName, char endPointName, T startPointX, 
-            T startPointY, T endPointX, T endPointY)
+        public Vector(
+            char startPointName,
+            char endPointName, 
+            T startPointX, 
+            T startPointY, 
+            T endPointX,
+            T endPointY)
         {
             this.StartPosX = startPointX;
             this.StartPosY = startPointY;
             this.EndPosX = endPointX;
             this.EndPosY = endPointY;
-            this.VectorX = (((dynamic)(this.EndPosX.ToString())) - 
-                (dynamic)(this.StartPosX.ToString()));
+            this.VectorX = (dynamic)(this.EndPosX.ToString() - 
+                (dynamic)this.StartPosX.ToString());
             this.VectorY = (dynamic)this.EndPosY - (dynamic)this.StartPosY;
             this.Name = startPointName.ToString() + endPointName.ToString();
             this.Lenght = Math.Sqrt(Math.Pow((dynamic)this.VectorX, 2) +
@@ -31,12 +46,16 @@
         }
 
         /// <summary>
-        /// Create new vector with use x and y coordinate of vector
+        /// Initializes a new instance of the <see cref="Vector {T}" /> class
+        /// create new vector with use x and y coordinate of vector
         /// </summary>
         /// <param name="name">name of vector</param>
         /// <param name="xVector">x vector coordinate</param>
         /// <param name="yVector">y vector coordinate</param>
-        public Vector(string name,T xVector,T yVector)
+        public Vector(
+            string name,
+            T xVector,
+            T yVector)
         {
             this.Name = name;
             this.VectorX = xVector;
@@ -46,20 +65,45 @@
         }
 
         // Members
+
+        /// <summary>
+        /// Gets start point x
+        /// </summary>
         public T StartPosX { get; private set; }
 
+        /// <summary>
+        /// Gets start point y
+        /// </summary>
         public T StartPosY { get; private set; }
 
+        /// <summary>
+        /// Gets end point x
+        /// </summary>
         public T EndPosX { get; private set; }
 
+        /// <summary>
+        /// Gets end point y
+        /// </summary>
         public T EndPosY { get; private set; }
         
+        /// <summary>
+        /// Gets vector x coordinate
+        /// </summary>
         public T VectorX { get; private set; }
 
+        /// <summary>
+        /// Gets vector y coordinate
+        /// </summary>
         public T VectorY { get; private set; }
 
+        /// <summary>
+        /// Gets vector name
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Gets line of vector
+        /// </summary>
         public double Lenght { get; private set; }
 
         /// <summary>
@@ -98,7 +142,7 @@
         /// <returns>True if first more than second</returns>
         public static bool operator >(Vector<T> firstVector, Vector<T> secondVector)
         {
-            return ((dynamic)firstVector.CompareTo(secondVector) < 0);
+            return (dynamic)firstVector.CompareTo(secondVector) < 0;
         }
 
         /// <summary>
@@ -109,7 +153,7 @@
         /// <returns>True if first less than second</returns>
         public static bool operator <(Vector<T> firstVector, Vector<T> secondVector)
         {
-            return ((dynamic)firstVector.CompareTo(secondVector) > 0);
+            return (dynamic)firstVector.CompareTo(secondVector) > 0;
         }
 
         /// <summary>
@@ -120,7 +164,7 @@
         /// <returns>True if first less than second</returns>
         public static bool operator ==(Vector<T> firstVector, Vector<T> secondVector)
         {
-            return ((dynamic)firstVector.CompareTo(secondVector) == 0);
+            return (dynamic)firstVector.CompareTo(secondVector) == 0;
         }
 
         /// <summary>
@@ -131,7 +175,7 @@
         /// <returns>True if first less than second</returns>
         public static bool operator !=(Vector<T> firstVector, Vector<T> secondVector)
         {
-            return ((dynamic)firstVector.CompareTo(secondVector) != 0);
+            return (dynamic)firstVector.CompareTo(secondVector) != 0;
         }
 
         // Public methods

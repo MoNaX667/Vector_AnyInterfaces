@@ -1,61 +1,78 @@
-﻿namespace Vector_Project
+﻿// <copyright file="VectorCollection.cs" company="Some Company">
+// Copyright (c) Sprocket Enterprises. All rights reserved.
+// </copyright>
+// <author>Vitalit Belyakov</author>
+
+namespace Vector_Project
 {
     using System.Collections;
     using System.Collections.Generic;
 
     /// <summary>
-    /// Class for collection of Vector Int data types 
+    /// Class for collection of Vector data types 
     /// </summary>
-    internal class VectorCollection<T>: IEnumerable<Vector<T>> where T: struct 
+    /// <typeparam name="T">Some type of vector</typeparam>
+    internal class VectorCollection<T> : IEnumerable<Vector<T>> where T : struct 
     {
+        /// <summary>
+        /// My list collection for input saving data
+        /// </summary>
         private List<Vector<T>> myList;
 
         /// <summary>
-        /// Lenght of collection
+        /// Initializes a new instance of the <see cref="VectorCollection {T}" /> class
+        /// </summary>
+        /// <param name="myVectors">Collection of elem</param>
+        public VectorCollection(params Vector<T>[] myVectors)
+        {
+            this.myList = new List<Vector<T>>();
+
+            foreach (var vector in myVectors)
+            {
+                this.myList.Add(vector);
+            }
+        }
+
+        /// <summary>
+        /// Gets len of collection
         /// </summary>
         public int Count
         {
             get
             {
-                return myList.Count;
-            }
-
-        }
-
-        public Vector<T> this[int index]      
-        {
-            get
-            {
-                return myList[index];
+                return this.myList.Count;
             }
         }
 
         /// <summary>
-        /// Base c-tor for initilizate new collection with some new vectors
+        /// Gets some elem by index
         /// </summary>
-        /// <param name="myVectors"></param>
-        public VectorCollection(params Vector<T>[] myVectors )
+        /// <param name="index">index of some elem</param>
+        /// <returns>return some elem by index</returns>
+        public Vector<T> this[int index]
         {
-            myList=new List<Vector<T>>();
-
-            foreach (var vector in myVectors)
+            get
             {
-                myList.Add(vector);
+                return this.myList[index];
             }
         }
 
         /// <summary>
         /// Method for foreach construction
         /// </summary>
-        /// <returns></returns>
+        /// <returns>return some enumeration</returns>
         public IEnumerator<Vector<T>> GetEnumerator()
         {
-            return myList.GetEnumerator();
+            return this.myList.GetEnumerator();
         }
 
+        /// <summary>
+        /// Some enum
+        /// </summary>
+        /// <returns>return collection</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<Vector<int>>) myList).GetEnumerator();
+            return ((IEnumerable<Vector<int>>)this.myList).GetEnumerator();
         }
 
         /// <summary>
@@ -64,7 +81,7 @@
         /// <param name="newVector">some vector for collection</param>
         public void Add(Vector<T> newVector)
         {
-            myList.Add(newVector);
+            this.myList.Add(newVector);
         }
 
         /// <summary>
@@ -74,14 +91,19 @@
         /// <returns>true if list contains this index, or false of error</returns>
         public bool TryRemoveAt(int indexOfElement)
         {
-            if (indexOfElement > 0 && indexOfElement < myList.Count)
+            if (indexOfElement > 0 && indexOfElement < this.myList.Count)
             {
-                myList.RemoveAt(indexOfElement);
+                this.myList.RemoveAt(indexOfElement);
                 return true;
             }
+
             return false;
         }
 
+        /// <summary>
+        /// Some elem
+        /// </summary>
+        /// <returns>some elem</returns>
         IEnumerator<Vector<T>> IEnumerable<Vector<T>>.GetEnumerator()
         {
             return this.GetEnumerator();
@@ -92,7 +114,7 @@
         /// </summary>
         public void Sort()
         {
-            myList.Sort();
+            this.myList.Sort();
         }
     }
 }
